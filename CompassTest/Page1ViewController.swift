@@ -122,10 +122,10 @@ class GeoPointCompass : NSObject, CLLocationManagerDelegate {
     let targetedPointLatitude: Float = degreesToRadians(Float(self.latitudeOfTargetedPoint ?? 0))
     let targetedPointLongitude: Float = degreesToRadians(Float(self.longitudeOfTargetedPoint ?? 0))
     
-    var longitudeDifference: Float = targetedPointLongitude - userLocationLongitude
+    let longitudeDifference: Float = targetedPointLongitude - userLocationLongitude
     
-    var y: Float = sin(longitudeDifference) * cos(targetedPointLatitude)
-    var x: Float = cos(userLocationLatitude) * sin(targetedPointLatitude) - sin(userLocationLatitude) * cos(targetedPointLatitude) * cos(longitudeDifference)
+    let y: Float = sin(longitudeDifference) * cos(targetedPointLatitude)
+    let x: Float = cos(userLocationLatitude) * sin(targetedPointLatitude) - sin(userLocationLatitude) * cos(targetedPointLatitude) * cos(longitudeDifference)
     var radiansValue: Float = atan2(y, x)
     if(radiansValue < 0.0)
     {
@@ -138,10 +138,10 @@ class GeoPointCompass : NSObject, CLLocationManagerDelegate {
   
   // MARK: CLLocationManagerDelegate
   
-  func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-    let currentUserLocation = locations.last as! CLLocation
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    let currentUserLocation:CLLocation = locations.last! as CLLocation
     
-    var meters: CLLocationDistance = currentUserLocation.distanceFromLocation(targetLocation)
+    var meters: CLLocationDistance = currentUserLocation.distanceFromLocation(targetLocation!)
     var unit: String = "m"
     if meters > 1000 {
       meters = meters / 1000
@@ -162,21 +162,21 @@ class GeoPointCompass : NSObject, CLLocationManagerDelegate {
 //    numberFormater.minimumFractionDigits = meters - Double(Int(meters)) == 0 ? 0 : 2
     let meterString = numberFormater.stringFromNumber(meters) ?? ""
     
-    println("Distance: \(meterString)\(unit)")
+    print("Distance: \(meterString)\(unit)")
     delegate?.onUpdate("\(meterString)\(unit)")
     
   }
 
   
-  func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-    println("Erros: \(error.localizedDescription)")
+  func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    print("Erros: \(error.localizedDescription)")
   }
   
-  func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-    println("locationManager didChangeAuthorizationStatus")
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    print("locationManager didChangeAuthorizationStatus")
   }
   
-  func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
+  func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
     
     var direction: Float = Float(newHeading.magneticHeading)
     
@@ -195,7 +195,7 @@ class GeoPointCompass : NSObject, CLLocationManagerDelegate {
       })
     }
     
-    let currentLocation: CLLocation = manager.location
+//    let currentLocation: CLLocation = manager.location!
   }
   
   

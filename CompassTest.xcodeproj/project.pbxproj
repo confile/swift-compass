@@ -162,6 +162,8 @@
 		CC400FD61B5DBE3E00593C6B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Majestella;
 				TargetAttributes = {
